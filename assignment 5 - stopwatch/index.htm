@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stopwatch</title>
+  <style>
+    .container {
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .time {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="time" id="display">00:00:00</div>
+    <div class="buttons">
+      <button onclick="startStopwatch()">Start</button>
+      <button onclick="stopStopwatch()">Stop</button>
+      <button onclick="resetStopwatch()">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    var stopwatch;
+    var startTime;
+    var isRunning = false;
+
+    function startStopwatch() {
+      if (!isRunning) {
+        startTime = Date.now();
+        stopwatch = setInterval(updateTime, 10);
+        isRunning = true;
+      }
+    }
+
+    function stopStopwatch() {
+      if (isRunning) {
+        clearInterval(stopwatch);
+        isRunning = false;
+      }
+    }
+
+    function resetStopwatch() {
+      stopStopwatch();
+      document.getElementById('display').textContent = '00:00:00';
+    }
+
+    function updateTime() {
+      var currentTime = Date.now();
+      var elapsedTime = currentTime - startTime;
+
+      var minutes = Math.floor(elapsedTime / 60000);
+      var seconds = Math.floor((elapsedTime % 60000) / 1000);
+      var milliseconds = Math.floor((elapsedTime % 1000) / 10);
+
+      minutes = padTime(minutes);
+      seconds = padTime(seconds);
+      milliseconds = padTime(milliseconds);
+
+      document.getElementById('display').textContent = minutes + ':' + seconds + ':' + milliseconds;
+    }
+
+    function padTime(time) {
+      return time.toString().padStart(2, '0');
+    }
+  </script>
+</body>
+</html>
