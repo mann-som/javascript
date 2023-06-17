@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Calendar</title>
+  <style>
+    .calendar {
+      font-family: Arial, sans-serif;
+      border-collapse: collapse;
+      width: 300px;
+    }
+
+    .calendar th,
+    .calendar td {
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    .calendar th {
+      background-color: #f2f2f2;
+    }
+
+    .calendar td:hover {
+      background-color: #ddd;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Live Calendar</h2>
+  <table class="calendar" id="calendar">
+    <thead>
+      <tr>
+        <th colspan="7"></th>
+      </tr>
+      <tr>
+        <th>Sun</th>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // Function to generate the calendar
+    function generateCalendar() {
+      var today = new Date();
+      var year = today.getFullYear();
+      var month = today.getMonth();
+      var firstDay = new Date(year, month, 1);
+      var lastDay = new Date(year, month + 1, 0);
+      var daysInMonth = lastDay.getDate();
+
+      var calendarTable = document.getElementById('calendar').getElementsByTagName('tbody')[0];
+      calendarTable.innerHTML = '';
+
+      var date = 1;
+      for (var i = 0; i < 6; i++) {
+        var row = document.createElement('tr');
+        for (var j = 0; j < 7; j++) {
+          if (i === 0 && j < firstDay.getDay()) {
+            var cell = document.createElement('td');
+            row.appendChild(cell);
+          } else if (date > daysInMonth) {
+            break;
+          } else {
+            var cell = document.createElement('td');
+            cell.textContent = date;
+            if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
+              cell.style.backgroundColor = 'lightblue';
+            }
+            row.appendChild(cell);
+            date++;
+          }
+        }
+        calendarTable.appendChild(row);
+      }
+    }
+
+    // Generate the calendar when the page loads
+    generateCalendar();
+  </script>
+</body>
+</html>
