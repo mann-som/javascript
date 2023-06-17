@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CRUD Application</title>
+</head>
+<body>
+  <h2>CRUD Application</h2>
+
+  <div>
+    <input type="text" id="inputItem" placeholder="Enter item">
+    <button onclick="addItem()">Add</button>
+  </div>
+
+  <ul id="itemList"></ul>
+
+  <script>
+    var items = []; // Array to store the items
+
+    // Function to add an item to the list
+    function addItem() {
+      var inputItem = document.getElementById('inputItem');
+      var newItem = inputItem.value.trim(); // Trim any leading/trailing white spaces
+
+      if (newItem !== '') {
+        items.push(newItem);
+        displayItems();
+        inputItem.value = '';
+      }
+    }
+
+    // Function to display the items in the list
+    function displayItems() {
+      var itemList = document.getElementById('itemList');
+      itemList.innerHTML = '';
+
+      for (var i = 0; i < items.length; i++) {
+        var listItem = document.createElement('li');
+        listItem.textContent = items[i];
+
+        var editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.setAttribute('data-index', i);
+        editButton.addEventListener('click', editItem);
+
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.setAttribute('data-index', i);
+        deleteButton.addEventListener('click', deleteItem);
+
+        listItem.appendChild(editButton);
+        listItem.appendChild(deleteButton);
+        itemList.appendChild(listItem);
+      }
+    }
+    function editItem() {
+    var index = parseInt(this.getAttribute('data-index'));
+    var editedItem = prompt('Enter the updated item:', items[index]);
+
+    if (editedItem !== null) {
+        items[index] = editedItem.trim();
+        displayItems();
+    }
+}
+
+
+    // Function to delete an item from the list
+    function deleteItem() {
+      var index = parseInt(this.getAttribute('data-index'));
+      items.splice(index, 1);
+      displayItems();
+    }
+  </script>
+</body>
+</html>
